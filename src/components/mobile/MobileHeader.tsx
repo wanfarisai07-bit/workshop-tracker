@@ -23,14 +23,19 @@ export function MobileHeader() {
           type="button"
           className="wt-hover-white20"
           onClick={logout}
-          aria-label="Sign out"
-          style={{ flex: 'none', background: 'rgba(255,255,255,0.1)', border: 'none', color: '#fff', width: 26, height: 26, borderRadius: 'var(--radius-xs)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          style={{
+            flex: 'none', display: 'flex', alignItems: 'center', gap: 5,
+            background: 'rgba(255,255,255,0.12)', border: 'none', color: '#fff',
+            font: '600 10.5px/1 var(--font-mono)', letterSpacing: '0.08em', textTransform: 'uppercase',
+            padding: '6px 9px', borderRadius: 'var(--radius-xs)', cursor: 'pointer',
+          }}
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round">
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
             <path d="M16 17l5-5-5-5" />
             <path d="M21 12H9" />
           </svg>
+          Sign out
         </button>
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 11 }}>
