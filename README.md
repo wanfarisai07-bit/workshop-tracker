@@ -13,6 +13,17 @@ npm run dev
 
 Sign in with the shared workshop Staff ID / password (real Supabase Auth — see `supabase/` for setup).
 
+## Installable (PWA)
+
+The app is a Progressive Web App (`vite-plugin-pwa`, see `vite.config.ts`):
+staff can install it to a phone's home screen — Android Chrome prompts
+automatically ("Install app"); on iOS, use Safari's Share sheet → "Add to
+Home Screen". Once installed, the app shell (not live workshop data, which
+still needs a connection to Supabase) is cached and opens even with no
+signal. Placeholder icons live in `public/icons/`; swap `icon-source.svg`
+for a real logo and run `node scripts/generate-icons.mjs` to regenerate every
+size from it.
+
 ## Backend: Supabase
 
 The app's data (vehicles, companies, registered vehicles) lives in Supabase —
