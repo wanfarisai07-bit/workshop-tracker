@@ -11,7 +11,7 @@ export function Sidebar() {
       <div style={{ display: 'flex', alignItems: 'center', gap: 9, padding: '0 6px 20px' }}>
         <img src={sumaiMark} alt="SUMAI" style={{ height: 22, width: 'auto', display: 'block', filter: 'brightness(1.25)' }} />
         <span style={{ font: '700 11.5px/1.2 var(--font-display)', letterSpacing: '0.04em', textTransform: 'uppercase', color: '#fff' }}>
-          Workshop<br />Progress
+          Workshop<br />Tracker
         </span>
       </div>
 

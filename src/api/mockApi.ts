@@ -126,7 +126,7 @@ export class MockWorkshopApi implements WorkshopApi {
     const v: Vehicle = {
       id: now,
       plate: payload.plate.toUpperCase(),
-      sheet: 'SA-2026-' + this.seq,
+      sheet: 'SA-2026-' + String(this.seq).padStart(4, '0'),
       type: payload.type,
       customer: payload.customer || 'Walk-in',
       stage: payload.bay ? 'inbay' : 'arrived',
@@ -147,7 +147,7 @@ export class MockWorkshopApi implements WorkshopApi {
     const v: Vehicle = {
       id: now,
       plate: payload.plate.toUpperCase(),
-      sheet: 'SA-2026-' + this.seq,
+      sheet: 'SA-2026-' + String(this.seq).padStart(4, '0'),
       type: payload.type,
       customer: payload.customer || 'Walk-in',
       stage: 'booked',

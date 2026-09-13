@@ -1,5 +1,5 @@
 -- ============================================================
--- SA Workshop Progress — Supabase schema
+-- Workshop Tracker — Supabase schema
 --
 -- Run this once in your Supabase project's SQL Editor
 -- (Dashboard -> SQL Editor -> New query -> paste this whole file -> Run).

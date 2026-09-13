@@ -1,19 +1,26 @@
-import { createContext, useCallback, useContext, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 import type { NavKey } from '../domain/constants';
+import { supabase } from '../api/supabaseClient';
+import { SHARED_STAFF_ID, signIn, signOut } from './auth';
 
 export type Screen = NavKey | 'vehicle';
 
 /**
- * Ephemeral, client-only UI state: who's "logged in" (a demo gate, not real
- * auth), which screen is showing, which vehicle is open, and the board's
- * overdue-only filter. None of this is ever persisted or sent to
- * `workshopApi` — it's navigation, not workshop data.
+ * Ephemeral, client-only UI state: which screen is showing, which vehicle
+ * is open, and the board's overdue-only filter (none of this is ever
+ * persisted or sent to `workshopApi` — it's navigation, not workshop data),
+ * plus who's logged in — which *is* real, persisted Supabase Auth state
+ * (see ./auth.ts), mirrored here via `supabase.auth.onAuthStateChange` so
+ * every screen can just read `authed` / `staffId` without touching
+ * Supabase directly.
  */
 interface AppStateValue {
   authed: boolean;
+  /** True until the initial `supabase.auth.getSession()` check resolves — avoids flashing the login screen for an already-persisted session. */
+  authLoading: boolean;
   staffId: string;
-  login: (staffId: string) => void;
+  login: (staffId: string, password: string) => Promise<string | null>;
   logout: () => void;
   screen: Screen;
   selId: number | null;
@@ -33,20 +40,38 @@ const AppStateContext = createContext<AppStateValue | null>(null);
 
 export function AppStateProvider({ children }: { children: ReactNode }) {
   const [authed, setAuthed] = useState(false);
-  const [staffId, setStaffId] = useState('');
+  const [authLoading, setAuthLoading] = useState(true);
   const [screen, setScreen] = useState<Screen>('board');
   const [selId, setSelId] = useState<number | null>(null);
   const [overdueOnly, setOverdueOnly] = useState(false);
   const [openNewCustomerForm, setOpenNewCustomerForm] = useState(false);
 
-  const login = useCallback((id: string) => {
-    setStaffId(id);
-    setAuthed(true);
+  // Mirror Supabase Auth's own (persisted, cross-tab) session state. This is
+  // what makes "stay logged in until you sign out" and "multiple people
+  // signed in at once with no conflict" work for free — each browser/device
+  // just has its own session token, all pointing at the same shared account.
+  useEffect(() => {
+    let active = true;
+    supabase.auth.getSession().then(({ data }) => {
+      if (!active) return;
+      setAuthed(!!data.session);
+      setAuthLoading(false);
+    });
+    const { data: subscription } = supabase.auth.onAuthStateChange((_event, session) => {
+      setAuthed(!!session);
+    });
+    return () => {
+      active = false;
+      subscription.subscription.unsubscribe();
+    };
   }, []);
 
+  const staffId = authed ? SHARED_STAFF_ID : '';
+
+  const login = useCallback((id: string, password: string) => signIn(id, password), []);
+
   const logout = useCallback(() => {
-    setAuthed(false);
-    setStaffId('');
+    void signOut();
     setScreen('board');
     setSelId(null);
   }, []);
@@ -72,10 +97,10 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const clearNewCustomerFlag = useCallback(() => setOpenNewCustomerForm(false), []);
 
   const value = useMemo<AppStateValue>(() => ({
-    authed, staffId, login, logout, screen, selId, overdueOnly, navigate, openVehicle, exitMaster, toggleOverdue,
+    authed, authLoading, staffId, login, logout, screen, selId, overdueOnly, navigate, openVehicle, exitMaster, toggleOverdue,
     openNewCustomerForm, goToNewCustomer, clearNewCustomerFlag,
   }), [
-    authed, staffId, login, logout, screen, selId, overdueOnly, navigate, openVehicle, exitMaster, toggleOverdue,
+    authed, authLoading, staffId, login, logout, screen, selId, overdueOnly, navigate, openVehicle, exitMaster, toggleOverdue,
     openNewCustomerForm, goToNewCustomer, clearNewCustomerFlag,
   ]);
 

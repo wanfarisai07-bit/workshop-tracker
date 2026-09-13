@@ -19,7 +19,7 @@ import { MobileApp } from './components/mobile/MobileApp';
 import { BackendErrorBanner } from './components/common/BackendErrorBanner';
 
 function Workspace() {
-  const { authed, login, screen, selId, exitMaster } = useAppState();
+  const { authed, authLoading, login, screen, selId, exitMaster } = useAppState();
   const isMobile = useIsMobile();
   // Relative-time labels ("42m in stage") across every screen refresh on this tick.
   useTick(15000);
@@ -31,11 +31,16 @@ function Workspace() {
     return () => window.removeEventListener('keydown', onKey);
   }, [screen, exitMaster]);
 
-  // The mobile design (Workshop Tracker.dc.html) has no login gate at all —
-  // that's the source, not an omission — so it bypasses `authed` entirely.
-  if (isMobile) return <MobileApp />;
+  // Login gates both layouts — a shared Supabase Auth account, checked once
+  // up front (authLoading) so an already-persisted session doesn't flash
+  // the login screen on reload.
+  if (authLoading) {
+    return <div style={{ height: '100%', background: 'var(--blue-900)' }} />;
+  }
 
   if (!authed) return <LoginScreen onLogin={login} />;
+
+  if (isMobile) return <MobileApp />;
 
   if (screen === 'master') {
     return (

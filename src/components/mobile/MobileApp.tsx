@@ -12,9 +12,10 @@ import { BackendErrorBanner } from '../common/BackendErrorBanner';
 const MOBILE_SCREENS = new Set(['board', 'bays', 'overview', 'register', 'vehicle']);
 
 /**
- * The mobile layout has no login gate and only four tabs (Check in / Board /
- * Bays / Overview) — that's the source design (`Workshop Tracker.dc.html`),
- * not an oversight: Customers and Master Display are desktop-only.
+ * The mobile layout only has four tabs (Check in / Board / Bays / Overview)
+ * — that's the source design (`Workshop Tracker.dc.html`), not an
+ * oversight: Customers and Master Display are desktop-only. The login gate
+ * itself lives one level up, in App.tsx's Workspace — it applies here too.
  */
 export function MobileApp() {
   const { screen, selId, navigate } = useAppState();

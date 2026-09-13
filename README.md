@@ -1,4 +1,4 @@
-# SA Workshop Progress — Workshop Tracker (Desktop)
+# Workshop Tracker
 
 A React + TypeScript + Vite implementation of the **Workshop Tracker Desktop**
 design (SUMAI Engineering's internal vehicle-tracking tool), built from the
@@ -11,7 +11,7 @@ npm install
 npm run dev
 ```
 
-Sign in with any Staff ID / password (it's a demo gate, matching the source design).
+Sign in with the shared workshop Staff ID / password (real Supabase Auth — see `supabase/` for setup).
 
 ## Backend: Supabase
 

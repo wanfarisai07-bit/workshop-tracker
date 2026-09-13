@@ -90,7 +90,7 @@ export class SupabaseWorkshopApi implements WorkshopApi {
     const seq = assertNoError<number>(await supabase.rpc('next_counter', { counter_key: 'vehicle_seq' }));
     const now = Date.now();
     const row = {
-      sheet: 'SA-2026-' + seq,
+      sheet: 'SA-2026-' + String(seq).padStart(4, '0'),
       plate: payload.plate.toUpperCase(),
       type: payload.type,
       customer: payload.customer || 'Walk-in',
@@ -110,7 +110,7 @@ export class SupabaseWorkshopApi implements WorkshopApi {
     const seq = assertNoError<number>(await supabase.rpc('next_counter', { counter_key: 'vehicle_seq' }));
     const now = Date.now();
     const row = {
-      sheet: 'SA-2026-' + seq,
+      sheet: 'SA-2026-' + String(seq).padStart(4, '0'),
       plate: payload.plate.toUpperCase(),
       type: payload.type,
       customer: payload.customer || 'Walk-in',

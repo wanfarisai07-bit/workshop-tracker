@@ -4,7 +4,7 @@ import { useAppState } from '../../state/AppStateContext';
 import { useWorkshopData } from '../../state/WorkshopDataContext';
 
 export function MobileHeader() {
-  const { screen, navigate } = useAppState();
+  const { screen, navigate, logout } = useAppState();
   const { vehicles } = useWorkshopData();
   const active = vehicles.filter((v) => v.stage !== 'booked' && v.stage !== 'closed');
   const showBack = screen === 'vehicle';
@@ -14,11 +14,24 @@ export function MobileHeader() {
       <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
         <img src={sumaiMark} alt="SUMAI" style={{ height: 20, width: 'auto', display: 'block', filter: 'brightness(1.25)' }} />
         <span style={{ font: '600 10.5px/1 var(--font-mono)', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--blue-300)' }}>
-          SA Workshop Progress
+          Workshop Tracker
         </span>
         <span style={{ marginLeft: 'auto', font: '600 10.5px/1 var(--font-mono)', letterSpacing: '0.1em', color: '#fff', background: 'rgba(255,255,255,0.12)', padding: '5px 7px', borderRadius: 'var(--radius-xs)' }}>
           {active.length} IN WORKSHOP
         </span>
+        <button
+          type="button"
+          className="wt-hover-white20"
+          onClick={logout}
+          aria-label="Sign out"
+          style={{ flex: 'none', background: 'rgba(255,255,255,0.1)', border: 'none', color: '#fff', width: 26, height: 26, borderRadius: 'var(--radius-xs)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+            <path d="M16 17l5-5-5-5" />
+            <path d="M21 12H9" />
+          </svg>
+        </button>
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 11 }}>
         {showBack && (
