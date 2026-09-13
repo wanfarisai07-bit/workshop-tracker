@@ -1,0 +1,46 @@
+@import './styles/tokens.css';
+
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  background: #dde3e9;
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+}
+
+a { color: #1B2C8E; text-decoration: none; }
+a:hover { color: #2566C0; }
+
+button { font-family: inherit; }
+input, select { font-family: inherit; }
+input:focus, select:focus { outline: none; }
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: #B4BFC9; border-radius: 4px; }
+
+button { -webkit-tap-highlight-color: transparent; }
+
+/* ----------------------------------------------------------------
+   Hover / focus utility classes.
+   Inline style objects can't express pseudo-states, so every
+   interactive element in this app carries one of these classes
+   alongside its inline styles — each ported 1:1 from the prototype's
+   `style-hover=` / `style-focus=` attributes.
+   ---------------------------------------------------------------- */
+.wt-input:focus { border-color: var(--brand) !important; box-shadow: var(--shadow-focus); }
+
+.wt-hover-accent:hover { background: var(--accent-hover) !important; }
+.wt-hover-brand-border:hover { border-color: var(--brand) !important; }
+.wt-hover-nav:hover { background: rgba(255,255,255,0.1) !important; }
+.wt-hover-border-strong:hover { border-color: var(--border-strong) !important; }
+.wt-hover-card:hover { box-shadow: var(--shadow-md) !important; border-color: var(--border-strong) !important; }
+.wt-hover-white:hover { color: #fff !important; }
+.wt-hover-subtle:hover { background: var(--bg-subtle) !important; }
+.wt-hover-shadow-md:hover { box-shadow: var(--shadow-md) !important; }
+.wt-hover-blue700:hover { background: var(--blue-700) !important; }
+.wt-hover-blue50:hover { background: var(--blue-50) !important; }
+.wt-hover-white20:hover { background: rgba(255,255,255,0.2) !important; }
+.wt-active-press:active { transform: translateY(1px); }
+.wt-hover-underline:hover { text-decoration: underline !important; }
+
+button:disabled { cursor: not-allowed !important; opacity: 0.6; }
